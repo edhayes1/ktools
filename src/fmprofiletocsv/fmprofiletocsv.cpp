@@ -60,7 +60,7 @@ void doit(bool skipheader)
     fm_profile q;
     size_t i = fread(&q, sizeof(q), 1, stdin);
     while (i != 0) {
-        printf("%d, %d, %d, %d, %f, %f, %f, %f, %f, %f, %f, %f\n",
+        printf("%d, %d, %d, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
                q.policytc_id, q.calcrule_id, q.allocrule_id, 
                q.ccy_id, q.deductible, q.limits,
                q.share_prop_of_lim, q.deductible_prop_of_loss, q.limit_prop_of_loss, q.deductible_prop_of_tiv,

@@ -56,7 +56,7 @@ void doit()
 	lineno++;
     while (fgets(line, sizeof(line), stdin) != 0)
     {
-		if (sscanf(line, "%d,%f,%f,%f,%d", &q.bin_index, &q.bin_from, &q.bin_to, &q.interpolation, &q.interval_type) != 5){
+		if (sscanf(line, "%d,%lf,%lf,%lf,%d", &q.bin_index, &q.bin_from, &q.bin_to, &q.interpolation, &q.interval_type) != 5){
            fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
            return;
        }

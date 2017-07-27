@@ -58,11 +58,11 @@ void aalcalc::loadperiodtoweigthing()
 	FILE *fin = fopen(PERIODS_FILE, "rb");
 	if (fin == NULL) return;
 	Periods p;
-	float total_weighting = 0;
+	double total_weighting = 0;
 	size_t i = fread(&p, sizeof(Periods), 1, fin);
 	while (i != 0) {
 		total_weighting += p.weighting;
-		periodstowighting_[p.period_no] = (float) p.weighting;
+		periodstowighting_[p.period_no] = (double) p.weighting;
 		i = fread(&p, sizeof(Periods), 1, fin);
 	}
 	// If we are going to have weightings we should have them for all periods
@@ -108,9 +108,9 @@ void aalcalc::outputresultscsv()
 	printf("summary_id,type,mean, mean_squared\n");
 
 	for (auto x : map_analytical_aal_) {
-		float mean = static_cast<float>(x.second.mean);
-		float sd_dev = static_cast<float>(static_cast<float>(sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1))));
-		printf("%d,%d, %f, %f, %f \n", x.first, x.second.type,mean, sd_dev, x.second.max_exposure_value);
+		double mean = static_cast<double>(x.second.mean);
+		double sd_dev = static_cast<double>(static_cast<double>(sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1))));
+		printf("%d,%d, %lf, %lf, %lf \n", x.first, x.second.type,mean, sd_dev, x.second.max_exposure_value);
 		 if (firstOutput==true){
 			std::this_thread::sleep_for(std::chrono::milliseconds(PIPE_DELAY)); // used to stop possible race condition with kat
             firstOutput=false;
@@ -118,9 +118,9 @@ void aalcalc::outputresultscsv()
 	}
 
 	for (auto x : map_sample_aal_) {
-		float mean = static_cast<float>(x.second.mean);
-		float sd_dev = static_cast<float>(sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1)));
-		printf("%d,%d, %f, %f, %f \n", x.first,x.second.type, mean, sd_dev, x.second.max_exposure_value);
+		double mean = static_cast<double>(x.second.mean);
+		double sd_dev = static_cast<double>(sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1)));
+		printf("%d,%d, %lf, %lf, %lf \n", x.first,x.second.type, mean, sd_dev, x.second.max_exposure_value);
 		if (firstOutput==true){
 			std::this_thread::sleep_for(std::chrono::milliseconds(PIPE_DELAY)); // used to stop possible race condition with kat
             firstOutput=false;
@@ -141,13 +141,13 @@ void aalcalc::outputsummarybin()
 	}
 }
 
-void aalcalc::do_analytical_calc(const summarySampleslevelHeader &sh,  float mean_loss)
+void aalcalc::do_analytical_calc(const summarySampleslevelHeader &sh,  double mean_loss)
 {	
 	if (periodstowighting_.size() > 0) {
 		auto iter = periodstowighting_.find(sh.event_id);
 		mean_loss = mean_loss * iter->second;
 	}
-	float mean_squared = mean_loss*mean_loss;
+	double mean_squared = mean_loss*mean_loss;
 	int count = event_count_[sh.event_id];		// do the cartesian
 	mean_loss = mean_loss * count;
 	mean_squared = mean_squared * count;
@@ -171,12 +171,12 @@ void aalcalc::do_analytical_calc(const summarySampleslevelHeader &sh,  float mea
 
 void aalcalc::do_sample_calc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec)
 {
-	float mean_loss=0;
+	double mean_loss=0;
 	for (auto x : vrec) {
 		mean_loss += x.loss;
 	}
 	mean_loss = mean_loss / samplesize_;	
-	float mean_squared = mean_loss*mean_loss;
+	double mean_squared = mean_loss*mean_loss;
 	int count = event_count_[sh.event_id];		// do the cartesian
 	mean_loss = mean_loss * count;
 	mean_squared = mean_squared * count;
@@ -199,13 +199,13 @@ void aalcalc::do_sample_calc(const summarySampleslevelHeader &sh, const std::vec
 	
 }
 
-void aalcalc::doaalcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec, float mean_loss)
+void aalcalc::doaalcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec, double mean_loss)
 {
 	do_analytical_calc(sh, mean_loss);
 	if (samplesize_) do_sample_calc(sh, vrec);
 }
 
-void applyweightings(int event_id, const std::map <int, float> &periodstowighting,std::vector<sampleslevelRec> &vrec)
+void applyweightings(int event_id, const std::map <int, double> &periodstowighting,std::vector<sampleslevelRec> &vrec)
 {
 	if (periodstowighting.size() == 0) return;
 	auto iter = periodstowighting.find(event_id);
@@ -254,7 +254,7 @@ void aalcalc::doit()
 		std::vector<sampleslevelRec> vrec;
 		summarySampleslevelHeader sh;
 		int j = 0;
-		float mean_loss = 0;
+		double mean_loss = 0;
 		while (i != 0) {
 			i = fread(&sh, sizeof(sh), 1, stdin);
 			while (i != 0) {

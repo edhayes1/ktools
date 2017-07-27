@@ -54,14 +54,14 @@ void aalsummary::outputresultscsv()
 		double mean = x.second.mean;
 		double sd_dev = sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1));
 		mean = mean / no_of_periods_;
-		printf("%d,%d,%f,%f,%f\n", x.first, x.second.type, mean, sd_dev, x.second.max_exposure_value);
+		printf("%d,%d,%lf,%lf,%lf\n", x.first, x.second.type, mean, sd_dev, x.second.max_exposure_value);
 	}
 
 	for (auto x : map_sample_aal_) {
 		double mean = x.second.mean;
 		double sd_dev = sqrt((x.second.mean_squared - (x.second.mean * x.second.mean / no_of_periods_)) / (no_of_periods_ - 1));
 		mean = mean / no_of_periods_;
-		printf("%d,%d,%f,%f,%f\n", x.first, x.second.type, mean, sd_dev, x.second.max_exposure_value);
+		printf("%d,%d,%lf,%lf,%lf\n", x.first, x.second.type, mean, sd_dev, x.second.max_exposure_value);
 	}
 
 }

@@ -52,12 +52,12 @@ void getRands::userandfile()
 	}
 	flseek(fin, 0L, SEEK_END);
 	long long p = fltell(fin);
-	buffersize_ = p / 4;
+	buffersize_ = p / 8;
 	//		_buffersize = _buffersize - 1;		// first 4 bytes is the limit
 	fseek(fin, 0L, SEEK_SET);
 
-	buf_ = new float[buffersize_];
-	if (fread(buf_, sizeof(float), buffersize_, fin) != buffersize_) {
+	buf_ = new double[buffersize_];
+	if (fread(buf_, sizeof(double), buffersize_, fin) != buffersize_) {
 		fprintf(stderr, "%s: Error reading random number file\n", __func__);
 		exit(-1);
 	}

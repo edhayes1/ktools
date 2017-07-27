@@ -37,6 +37,7 @@ Author: Ben Matharu  email: ben.matharu@oasislmf.org
 */
 #ifndef GULCALC_H_
 #define GULCALC_H_
+#define DEBUGGING_HACK 1024 //overloaded the buffer size so temp added a extra 1k to the buffer.
 
 #include "../include/oasis.h"
 
@@ -47,7 +48,7 @@ Author: Ben Matharu  email: ben.matharu@oasislmf.org
 struct exposure_rec {
 	int item_id;
 	int group_id;
-	float tiv;
+	double tiv;
 };
 
 struct item_map_key {
@@ -65,18 +66,18 @@ struct item_map_rec {
 
 
 struct prob_mean {
-	float prob_to;
-	float bin_mean;
+	double prob_to;
+	double bin_mean;
 };
 
 struct gulGulSamples {
 	int event_id;
 	int item_id;
-	float tiv;
+	double tiv;
 	int bin_index;
-	float prob_from;
-	float prob_to;
-	float bin_mean;
+	double prob_from;
+	double prob_to;
+	double bin_mean;
 	int sidx;
 	double rval;
 };
@@ -88,12 +89,12 @@ class gulcalc  {
 private:
 	getRands *rnd_;
 	const std::map<item_map_key, std::vector<item_map_rec> > *item_map_;
-	const std::vector<float> *coverages_;
+	const std::vector<double> *coverages_;
 	const std::vector<damagebindictionary> *damagebindictionary_vec_;
 	void gencovoutput(gulcoverageSampleslevel &gc);
 	void gencovoutputx(gulcoverageSampleslevel &gc);
-	std::vector<std::vector<float>> cov_;
-	std::map<int, std::vector<float>> covx_;
+	std::vector<std::vector<double>> cov_;
+	std::map<int, std::vector<double>> covx_;
 	void covoutputgul(gulcoverageSampleslevel &gc);
 	void outputcoveragedata(int event_id);
 	void outputcoveragedatax(int event_id);
@@ -101,8 +102,8 @@ private:
 	void(*itemWriter_)(const void *ibuf, int size, int count);
 	void(*coverageWriter_)(const void *ibuf, int size, int count);
 	bool(*iGetrec_)(char *rec, int recsize);
-	float getgul(damagebindictionary &b, gulGulSamples &g);
-	void output_mean(const item_map_rec &er, float tiv, prob_mean *pp, int bin_count, float &gul_mean, float &std_dev);
+	double getgul(damagebindictionary &b, gulGulSamples &g);
+	void output_mean(const item_map_rec &er, double tiv, prob_mean *pp, int bin_count, double &gul_mean, double &std_dev);
 	void init();
 	unsigned char *ibuf_;	// item level buffer
 	unsigned char *cbuf_;	// coverage level buffer
@@ -119,7 +120,7 @@ private:
 	long long p3_;
 public:	
 	void processrec(char *rec, int recsize);
-	gulcalc(const std::vector<damagebindictionary> &damagebindictionary_vec,const std::vector<float> &tivs,
+	gulcalc(const std::vector<damagebindictionary> &damagebindictionary_vec,const std::vector<double> &tivs,
 		const std::map<item_map_key, std::vector<item_map_rec> > &item_map, getRands &rnd, 
 		double gul_limit,
 		//bool userandomtable,
@@ -130,6 +131,7 @@ public:
 		void(*coverageWriter)(const void *ibuf,int size, int count),
 		bool(*iGetrec)(char *rec, int recsize)
 		) {
+
 		damagebindictionary_vec_ = &damagebindictionary_vec;
 		coverages_ = &tivs;
 		cov_.resize(coverages_->size());
@@ -138,14 +140,15 @@ public:
 		itemWriter_ = itemWriter;
 		coverageWriter_ = coverageWriter;
 		iGetrec_ = iGetrec;
-		ibuf_ = new unsigned char[bufsize + sizeof(gulitemSampleslevel)]; // make the allocation bigger by 1 record to avoid overrunning
-		cbuf_ = new unsigned char[bufsize + sizeof(gulitemSampleslevel)]; // make the allocation bigger by 1 record to avoid overrunning
+		ibuf_ = new unsigned char[bufsize + sizeof(gulitemSampleslevel) + DEBUGGING_HACK]; // make the allocation bigger by 1 record to avoid overrunning
+		cbuf_ = new unsigned char[bufsize + sizeof(gulitemSampleslevel) + DEBUGGING_HACK]; // make the allocation bigger by 1 record to avoid overrunning
 		gul_limit_ = gul_limit;
 		rndopt_ = rndopt;				
 		debug_ = debug;
 		samplesize_ = samplesize;
 		isFirstItemEvent_ = true;
 		isFirstCovEvent_ = true;
+
 		p1_ = rnd_->getp1();	// prime p1	make these long to force below expression to not have sign problem
 		p2_ = rnd_->getp2((unsigned int)p1_);  // prime no p2
 		p3_ = rnd_->getp2((unsigned int)samplesize_);	// use as additional offset to stop overlapping of random numbers 

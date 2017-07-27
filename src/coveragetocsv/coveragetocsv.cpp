@@ -55,12 +55,12 @@ void doit()
 
 	if(skipheader == false) printf("\"coverage_id\", \"tiv\"\n");
     
-	float tiv;
+	double tiv;
 	int id = 0;
     size_t i = fread(&tiv, sizeof(tiv), 1, stdin);
     while (i != 0) {
 		id++;
-        printf("%d, %f\n", id, tiv);
+        printf("%d, %lf\n", id, tiv);
         i = fread(&tiv, sizeof(tiv), 1, stdin);
     }
 }

@@ -46,24 +46,24 @@ private:
 	FILE **fout_;
 	int totalperiods_;
 	int maxsummaryid_;
-	std::map<outkey2, float> &agg_out_loss_;
-	std::map<outkey2, float> &max_out_loss_;
+	std::map<outkey2, double> &agg_out_loss_;
+	std::map<outkey2, double> &max_out_loss_;
 	bool useReturnPeriodFile_;
 	int samplesize_ = 0;
 	std::vector<int> returnperiods_;
-	std::map <int, float> periodstowighting_;
+	std::map <int, double> periodstowighting_;
 
 //
-	void fulluncertainty(int handle, const std::map<outkey2, float> &out_loss);	
-	void fulluncertaintywithweighting(int handle, const std::map<outkey2, float> &out_loss);
-	void wheatsheaf(int handle, const std::map<outkey2, float> &out_loss);	
-	void wheatSheafMean(int samplesize, int handle, const std::map<outkey2, float> &out_loss);	
-	void sampleMean(int samplesize, int handle, const std::map<outkey2, float> &out_loss);	
+	void fulluncertainty(int handle, const std::map<outkey2, double> &out_loss);	
+	void fulluncertaintywithweighting(int handle, const std::map<outkey2, double> &out_loss);
+	void wheatsheaf(int handle, const std::map<outkey2, double> &out_loss);	
+	void wheatSheafMean(int samplesize, int handle, const std::map<outkey2, double> &out_loss);	
+	void sampleMean(int samplesize, int handle, const std::map<outkey2, double> &out_loss);	
 	void loadreturnperiods();
-	float getloss(float nextreturnperiod, float last_return_period, float last_loss, 
-		float current_return_period, float current_loss) const;
-	void doreturnperiodout(int handle, int &nextreturnperiod_index, float &last_return_period, float &last_loss,
-		float current_return_period, float current_loss, int summary_id, int type);
+	double getloss(double nextreturnperiod, double last_return_period, double last_loss, 
+		double current_return_period, double current_loss) const;
+	void doreturnperiodout(int handle, int &nextreturnperiod_index, double &last_return_period, double &last_loss,
+		double current_return_period, double current_loss, int summary_id, int type);
 public:
 	void loadperiodtoweigthing();
 	void outputOccFulluncertainty();
@@ -74,7 +74,7 @@ public:
 	void outputAggWheatSheafMean(int samplesize);
 	void outputOccSampleMean(int samplesize);
 	void outputAggSampleMean(int samplesize);
-	aggreports(int totalperiods, int maxsummaryid, std::map<outkey2, float> &agg_out_loss, std::map<outkey2, float> &max_out_loss,
+	aggreports(int totalperiods, int maxsummaryid, std::map<outkey2, double> &agg_out_loss, std::map<outkey2, double> &max_out_loss,
 		FILE **fout, bool useReturnPeriodFile, int samplesize) ;
 };
 #endif // AGGREPORTS_H_

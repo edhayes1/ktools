@@ -57,7 +57,7 @@ void doit()
 	lineno++;
     while (fgets(line, sizeof(line), stdin) != 0)
     {
-		if (sscanf(line, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f", &q.policytc_id, &q.calcrule_id, &q.allocrule_id, &q.ccy_id, &q.deductible, &q.limits, &q.share_prop_of_lim, 
+		if (sscanf(line, "%d,%d,%d,%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf", &q.policytc_id, &q.calcrule_id, &q.allocrule_id, &q.ccy_id, &q.deductible, &q.limits, &q.share_prop_of_lim, 
               &q.deductible_prop_of_loss, &q.limit_prop_of_loss, &q.deductible_prop_of_tiv, &q.limit_prop_of_tiv, &q.deductible_prop_of_limit) != 12){
            fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
            return;

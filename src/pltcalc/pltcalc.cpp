@@ -108,9 +108,9 @@ struct outrec {
 	int summary_id;
 	int period_no;
 	int event_id;
-	float mean;
-	float standard_deviation;
-	float exp_value;
+	double mean;
+	double standard_deviation;
+	double exp_value;
 	int occ_date_id;
 };
 void dopltcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec)
@@ -126,8 +126,8 @@ void dopltcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslev
 	o.mean = 0;
 	o.standard_deviation = 0;
 
-	float squared_loss_sum = 0;
-	float loss_sum = 0;
+	double squared_loss_sum = 0;
+	double loss_sum = 0;
 	for (auto p : vp) {
 		o.period_no = p.period_no;
 		o.occ_date_id = p.occ_date_id;
@@ -144,9 +144,9 @@ void dopltcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslev
 		if (hasrec) {
 			o.mean = loss_sum / samplesize_;
 			//o.standard_deviation = ((squared_loss_sum - loss_sum)/ samplesize_)/(samplesize_ -1);
-			float sd = (squared_loss_sum - ((loss_sum*loss_sum) / samplesize_)) / (samplesize_ - 1);
-			float x = sd / squared_loss_sum;
-			if (x < 0.0000001) sd = 0;   // fix floating point precision problems caused by using large numbers
+			double sd = (squared_loss_sum - ((loss_sum*loss_sum) / samplesize_)) / (samplesize_ - 1);
+			double x = sd / squared_loss_sum;
+			if (x < 0.0000001) sd = 0;   // fix doubleing point precision problems caused by using large numbers
 			o.standard_deviation = sqrt(sd);
 			if (date_algorithm_) {
 				int occ_year, occ_month, occ_day;

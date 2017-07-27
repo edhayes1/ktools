@@ -83,9 +83,9 @@ struct damagecdfrec {
 
 struct damagebindictionary {
         int bin_index;
-        float bin_from;
-        float bin_to;
-        float interpolation;
+        double bin_from;
+        double bin_to;
+        double interpolation;
         int interval_type;
 };
 
@@ -93,19 +93,19 @@ struct gulitemSampleslevel {
 	int event_id;
 	int item_id;
 	int sidx;		// This has be stored for thresholds cannot be implied
-	float loss;		// may want to cut down to singe this causes 4 byte padding for allignment 
+	double loss;		// may want to cut down to singe this causes 4 byte padding for allignment 
 };
 struct gulcoverageSampleslevel {
 	int event_id;
 	int coverage_id;
 	int sidx;		// This has be stored for thresholds cannot be implied
-	float loss;		// may want to cut down to singe this causes 4 byte padding for allignment
+	double loss;		// may want to cut down to singe this causes 4 byte padding for allignment
 };
 
 struct gulSampleslevelEventRec {
 	int item_id;
 	int sidx;		// This has be stored for thresholds cannot be implied
-	float loss;		// may want to cut down to singe this causes 4 byte padding for allignment
+	double loss;		// may want to cut down to singe this causes 4 byte padding for allignment
 };
 struct gulSampleslevelHeader {
 	int event_id;
@@ -115,17 +115,17 @@ struct gulSampleslevelHeader {
 struct summarySampleslevelHeader {
 	int event_id;
 	int summary_id;
-	float expval;				// exposure value
+	double expval;				// exposure value
 };
 
 struct gulSampleslevelRec {
 	int sidx;		// This has be stored for thresholds cannot be implied
-	float loss;		// may want to cut down to singe this causes 4 byte padding for allignment
+	double loss;		// may want to cut down to singe this causes 4 byte padding for allignment
 };
 
 struct sampleslevelRec {
 	int sidx;		
-	float loss;			
+	double loss;			
 };
 
 
@@ -142,7 +142,7 @@ struct fmlevelhdr {
 
 struct fmlevelrec {
 	int sidx;
-	float loss;
+	double loss;
 };
 
 struct exposure{
@@ -150,7 +150,7 @@ struct exposure{
 	int areaperil_id;
 	int vulnerability_id;
 	int group_id;
-	float tiv;
+	double tiv;
 };
 
 struct item {
@@ -163,7 +163,7 @@ struct item {
 
 struct coverage {
 	int id;
-	float tiv;
+	double tiv;
 };
 
 struct occurrence {
@@ -189,14 +189,14 @@ struct fm_profile {
 	int calcrule_id;
 	int allocrule_id;
 	int ccy_id;
-	float deductible;
-	float limits;
-	float share_prop_of_lim;
-	float deductible_prop_of_loss;
-	float limit_prop_of_loss;
-	float deductible_prop_of_tiv;
-	float limit_prop_of_tiv;
-	float deductible_prop_of_limit;
+	double deductible;
+	double limits;
+	double share_prop_of_lim;
+	double deductible_prop_of_loss;
+	double limit_prop_of_loss;
+	double deductible_prop_of_tiv;
+	double limit_prop_of_tiv;
+	double deductible_prop_of_limit;
 };
 
 struct fm_programme {
@@ -238,7 +238,7 @@ struct Vulnerability
 	int vulnerability_id;
 	int intensity_bin_id;
 	int damage_bin_id;
-	float probability;
+	double probability;
 };
 
 struct Periods
@@ -250,7 +250,7 @@ struct EventRow
 {
 	int areaperil_id;
 	int intensity_bin_id;
-	float probability;
+	double probability;
 };
 
 struct EventIndex

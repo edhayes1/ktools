@@ -58,8 +58,8 @@ void doit()
     while (fgets(line, sizeof(line), stdin) != 0)
     {
 		int coverage_id;
-		float tiv;
-	  if (sscanf(line, "%d,%f", &coverage_id, &tiv) != 2){
+		double tiv;
+	  if (sscanf(line, "%d,%lf", &coverage_id, &tiv) != 2){
            fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
            return;
        }

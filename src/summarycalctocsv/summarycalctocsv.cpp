@@ -79,7 +79,7 @@ void doit(bool skipheader, bool fullprecision)
 				i = fread(&sr, sizeof(sr), 1, stdin);
 				if (i == 0) break;
 				if (sr.sidx == 0) break;
-				if (fullprecision) printf("%d,%d,%d,%f\n", sh.event_id, sh.summary_id, sr.sidx, sr.loss);
+				if (fullprecision) printf("%d,%d,%d,%lf\n", sh.event_id, sh.summary_id, sr.sidx, sr.loss);
 				else printf("%d,%d,%d,%.2f\n", sh.event_id, sh.summary_id, sr.sidx, sr.loss);
 				if (firstOutput==true){
 					std::this_thread::sleep_for(std::chrono::milliseconds(PIPE_DELAY));  // used to stop possible race condition with kat

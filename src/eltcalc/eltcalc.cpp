@@ -65,11 +65,11 @@ bool isSummaryCalcStream(unsigned int stream_type)
 
 void doetloutput(int samplesize)
 {
-	float sumloss = 0.0;
-	float sample_mean = 0.0;
-	float analytical_mean = 0.0;
-	float sd = 0;
-	float sumlosssqr = 0.0;
+	double sumloss = 0.0;
+	double sample_mean = 0.0;
+	double analytical_mean = 0.0;
+	double sd = 0;
+	double sumlosssqr = 0.0;
 	if (skipHeader == false) printf("summary_id,type,event_id,mean,standard_deviation,exposure_value\n");
 	summarySampleslevelHeader sh;
 	int i = fread(&sh, sizeof(sh), 1, stdin);
@@ -88,8 +88,8 @@ void doetloutput(int samplesize)
 		if (samplesize > 1) {
 			sample_mean = sumloss / samplesize;
 			sd = (sumlosssqr - ((sumloss*sumloss) / samplesize)) / (samplesize - 1);
-			float x = sd / sumlosssqr;
-			if (x < 0.0000001) sd = 0;   // fix floating point precision problems caused by using large numbers
+			double x = sd / sumlosssqr;
+			if (x < 0.0000001) sd = 0;   // fix doubleing point precision problems caused by using large numbers
 			sd = sqrt(sd);
 		}
 		else {
@@ -103,12 +103,12 @@ void doetloutput(int samplesize)
 			}
 		}
 		if (sh.expval > 0) {	// only output rows with a none zero exposure value
-			printf("%d,1,%d,%f,0,%f\n", sh.summary_id, sh.event_id, analytical_mean, sh.expval);
+			printf("%d,1,%d,%lf,0,%lf\n", sh.summary_id, sh.event_id, analytical_mean, sh.expval);
 			if (firstOutput == true) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(PIPE_DELAY)); // used to stop possible race condition with kat
 				firstOutput = false;
 			}
-			if (samplesize) printf("%d,2,%d,%f,%f,%f\n", sh.summary_id, sh.event_id, sample_mean, sd, sh.expval);
+			if (samplesize) printf("%d,2,%d,%lf,%lf,%lf\n", sh.summary_id, sh.event_id, sample_mean, sd, sh.expval);
 		}
 		
 

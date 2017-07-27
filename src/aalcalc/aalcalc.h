@@ -52,15 +52,15 @@ private:
 	int samplesize_ = 0;
 	std::map<int, aal_rec> map_analytical_aal_;
 	std::map<int, aal_rec> map_sample_aal_;
-	std::map <int, float> periodstowighting_;	
+	std::map <int, double> periodstowighting_;	
 	// functions
 	void loadperiodtoweigthing();
 	void loadoccurrence();
 	void outputresultscsv();
 	void outputsummarybin();
-	void do_analytical_calc(const summarySampleslevelHeader &sh, float mean_loss);
+	void do_analytical_calc(const summarySampleslevelHeader &sh, double mean_loss);
 	void do_sample_calc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec);
-	void doaalcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec, float mean_loss);
+	void doaalcalc(const summarySampleslevelHeader &sh, const std::vector<sampleslevelRec> &vrec, double mean_loss);
 	void applyweightingstomap(std::map<int, aal_rec> &m, int i);
 	void applyweightingstomaps();
 public:

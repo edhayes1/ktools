@@ -49,14 +49,14 @@ Author: Ben Matharu  email: ben.matharu@oasislmf.org
 
 void doit()
 {
-    float randno;
+    double randno;
     char line[4096];
     int lineno=0;
 	
 	fgets(line, sizeof(line), stdin);	// skip first line
     while (fgets(line, sizeof(line), stdin) != 0)
     {
-       if (sscanf(line, "%f", &randno) != 1){
+       if (sscanf(line, "%lf", &randno) != 1){
            fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
            return;
        }

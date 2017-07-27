@@ -53,7 +53,7 @@ void doit()
 	damagebindictionary q;
 	size_t i = fread(&q, sizeof(q), 1, stdin);
 	while (i != 0) {
-		printf("%d, %f, %f, %f, %d\n",
+		printf("%d, %lf, %lf, %lf, %d\n",
 			q.bin_index, q.bin_from, q.bin_to, q.interpolation, q.interval_type);
 
 		i = fread(&q, sizeof(q), 1, stdin);

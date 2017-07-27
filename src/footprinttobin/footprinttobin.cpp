@@ -82,7 +82,7 @@ void doitz() {
 
   while (fgets(line, sizeof(line), stdin) != 0) {
     lineno++;
-    if (sscanf(line, "%d,%d,%d,%f", &event_id, &r.areaperil_id,
+    if (sscanf(line, "%d,%d,%d,%lf", &event_id, &r.areaperil_id,
                &r.intensity_bin_id, &r.probability) != 4) {
       fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
       return;
@@ -171,7 +171,7 @@ void doit() {
   idx.offset += sizeof(hasIntensityUncertainty_);
   while (fgets(line, sizeof(line), stdin) != 0) {
     lineno++;
-    if (sscanf(line, "%d,%d,%d,%f", &event_id, &r.areaperil_id,
+    if (sscanf(line, "%d,%d,%d,%lf", &event_id, &r.areaperil_id,
                &r.intensity_bin_id, &r.probability) != 4) {
       fprintf(stderr, "Invalid data in line %d:\n%s", lineno, line);
       return;

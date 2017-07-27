@@ -98,8 +98,8 @@ bool getrec(char *rec_, FILE *stream, int recsize_)
 
 
 struct prob_mean {
-        float prob_to;
-        float bin_mean;
+        double prob_to;
+        double bin_mean;
 };
 
 void processrec(char *rec, int recsize,
@@ -111,7 +111,7 @@ void processrec(char *rec, int recsize,
     b = b + sizeof(int);
     prob_mean *pp = (prob_mean *)b;
     for (int bin_index = 0; bin_index < *bin_count; bin_index++){
-        fprintf(stdout,"%d,%d,%d,%d,%f,%f\n",d->event_id, d->areaperil_id, d->vulnerabilty_id,bin_index+1,pp->prob_to,pp->bin_mean );
+        fprintf(stdout,"%d,%d,%d,%d,%lf,%lf\n",d->event_id, d->areaperil_id, d->vulnerabilty_id,bin_index+1,pp->prob_to,pp->bin_mean );
         pp++;
     }
 }

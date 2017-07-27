@@ -76,7 +76,7 @@ void doit()
 				i = fread(&gr, sizeof(gr), 1, stdin);
 				if (i == 0) break;
 				if (gr.sidx == 0) break;
-				if(fullprecision) printf("%d,%d,%d,%f\n", gh.event_id, gh.item_id, gr.sidx, gr.loss);
+				if(fullprecision) printf("%d,%d,%d,%lf\n", gh.event_id, gh.item_id, gr.sidx, gr.loss);
 				else printf("%d,%d,%d,%.2f\n", gh.event_id, gh.item_id, gr.sidx, gr.loss);
 			}
 		}
